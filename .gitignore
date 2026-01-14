@@ -9,3 +9,5 @@ HytaleServer.jar
 server
 source
 *.iml
+temp/
+fernflower/
