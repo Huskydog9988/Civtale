@@ -49,7 +49,7 @@ subprocess.run([downloader.absolute()], check=True, cwd=(server))
 
 for file in os.listdir(server):
     if file.endswith(".zip"):
-        hytale_server = Path(file)
+        hytale_server = server / file
         break
 
 if hytale_server is None:
