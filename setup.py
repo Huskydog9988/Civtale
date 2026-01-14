@@ -84,6 +84,7 @@ with urllib.request.urlopen(req) as response, open("temp/fernflower.zip", "wb") 
 with zipfile.ZipFile("temp/fernflower.zip", 'r') as zip_ref:
     zip_ref.extractall("fernflower")
 fernflowermaster = Path("fernflower") / "fernflower-master"
+open(fernflowermaster / "settings.gradle", 'a').close()
 if is_linux:
     subprocess.run([(fernflowermaster / "gradlew").absolute(), "build"], check=True, cwd=fernflowermaster)
 else:
