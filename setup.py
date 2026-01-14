@@ -68,7 +68,7 @@ shutil.copyfile(ext / "Server/HytaleServer.aot", Path("server") / "HytaleServer.
 shutil.copyfile(ext / "Server/HytaleServer.jar", Path("server") / "HytaleServer.jar")
 
 hytale_server_jar = Path("server") / "HytaleServer.jar"
-fernflower_jar = Path("fernflower") / "build" / "libs" / "fernflower.jar"
+fernflower_jar = Path("fernflower") / "fernflower-master" / "build" / "libs" / "fernflower.jar"
 sources = Path("sources")
 
 
