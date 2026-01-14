@@ -1,6 +1,6 @@
 # Getting started
 
-To setup the development environment, you need either Windows or Linux, as well as Python installed.
+To setup the development environment, you need either Windows or Linux, as well as Python and Java 21+ installed.
 
 Run `python3 setup.py` to download the Hytale jar, setup a server, and decompile it.
 
