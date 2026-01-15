@@ -17,7 +17,7 @@ public class ReinforcementStoreable implements DatabasePositionStoreable<Reinfor
         migrator.registerMigration("reinforcements", 1, """
             CREATE TABLE reinforcements (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, type TEXT NOT NULL, health DOUBLE NOT NULL, created TIMESTAMP NOT NULL, UNIQUE (world, x, y, z))
             """, """
-            CREATE INDEX reinforcement_chunk ON reinforcements (world, x / 16, z / 16)
+            CREATE INDEX reinforcement_chunk ON reinforcements (world, x >> 5, z >> 5)
             """);
 
         migrator.migrate(connection);
