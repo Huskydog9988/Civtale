@@ -147,6 +147,9 @@ public class ChunkPositionDatabaseStore<T extends PositionStoreable> {
             throw new IllegalStateException(Thread.currentThread().getName() + " is not world thread");
         }
         NavigableMap<BlockPos, DatabaseRecord<T>> map = byChunk.remove(chunk);
+        if (map.isEmpty()) {
+            return;
+        }
         NavigableMap<BlockPos, DatabaseRecord<T>> updatedState = new TreeMap<>();
         Set<T> deleted = Collections.newSetFromMap(new IdentityHashMap<>());
         Set<T> updated = Collections.newSetFromMap(new IdentityHashMap<>());
