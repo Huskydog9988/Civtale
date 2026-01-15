@@ -121,8 +121,7 @@ public class ChunkPositionDatabaseStore<T extends PositionStoreable> {
 
     public synchronized void loadChunk(ChunkPos chunk) {
         synchronized (database) {
-            try {
-                PreparedStatement statement = database.getConnection().prepareStatement("SELECT * FROM %s WHERE x >> 5 = ? AND z >> 5 = ? AND world = ?".formatted(table));
+            try (PreparedStatement statement = database.getConnection().prepareStatement("SELECT * FROM %s WHERE x >> 5 = ? AND z >> 5 = ? AND world = ?".formatted(table))) {
                 statement.setInt(1, chunk.x());
                 statement.setInt(2, chunk.z());
                 statement.setString(3, chunk.world());
@@ -168,11 +167,10 @@ public class ChunkPositionDatabaseStore<T extends PositionStoreable> {
         }
         EXECUTOR.execute(() -> {
             try {
-                try {
-                    // TODO process the database record into a list of statements which can then be applied sequentially
-                    // As if this errors right now we could end up in a corrupt state
-
-                    PreparedStatement deleteStatement = database.getConnection().prepareStatement("DELETE FROM " + table + " WHERE world = ? AND x = ? AND y = ? AND z = ?");
+                // TODO process the database record into a list of statements which can then be applied sequentially
+                // As if this errors right now we could end up in a corrupt state
+                try (PreparedStatement deleteStatement = database.getConnection().prepareStatement("DELETE FROM " + table + " WHERE world = ? AND x = ? AND y = ? AND z = ?");
+                     PreparedStatement updateReinforcement = database.getConnection().prepareStatement(this.databasePositionStoreable.replaceStatement(table))) {
 
                     database.getConnection().setAutoCommit(false);
 
@@ -185,8 +183,6 @@ public class ChunkPositionDatabaseStore<T extends PositionStoreable> {
                         deleteStatement.addBatch();
                     }
                     deleteStatement.executeBatch();
-
-                    PreparedStatement updateReinforcement = database.getConnection().prepareStatement(this.databasePositionStoreable.replaceStatement(table));
 
                     database.getConnection().setAutoCommit(false);
 
