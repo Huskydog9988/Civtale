@@ -11,4 +11,10 @@ To run Hytale in debugging mode, it's recommended to make a configuration in Int
 ![rungd](wiki/rungd.png)
 ![rungd](wiki/runhy.png)
 
+Recommended arguments for running the jar:
+
+```
+--assets Assets.zip --assets ../Assets --auth-mode offline --disable-sentry --allow-op
+```
+
 Running the jar application in debug mode will compile the plugin and run the server.
