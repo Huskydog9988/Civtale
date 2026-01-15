@@ -51,7 +51,7 @@ public class ChunkPositionDatabaseStore<T extends PositionStoreable> {
             throw new RuntimeException(e);
         }
 
-        registry.registerSystem(new ChunkUnloadHandler(this));
+        registry.registerSystem(new ChunkUnloadHandler<>(this));
         eventRegistry.registerGlobal(ChunkPreLoadProcessEvent.class, new ChunkLoadHandler<>(this));
         eventRegistry.registerGlobal(StartWorldEvent.class, new WorldLoadHandler<>(this));
     }
