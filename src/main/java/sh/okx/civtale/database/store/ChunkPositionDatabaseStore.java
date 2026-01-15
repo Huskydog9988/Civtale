@@ -143,8 +143,11 @@ public class ChunkPositionDatabaseStore<T extends PositionStoreable> {
         if (!world.isInThread()) {
             throw new IllegalStateException(Thread.currentThread().getName() + " is not world thread");
         }
-        NavigableMap<BlockPos, DatabaseRecord<T>> map = byChunk.remove(chunk);
+        NavigableMap<BlockPos, DatabaseRecord<T>> map = byChunk.get(chunk);
         if (map.isEmpty()) {
+            if (unload) {
+                byChunk.remove(chunk);
+            }
             return;
         }
         NavigableMap<BlockPos, DatabaseRecord<T>> updatedState = new TreeMap<>();
@@ -164,6 +167,8 @@ public class ChunkPositionDatabaseStore<T extends PositionStoreable> {
         }
         if (!unload) {
             byChunk.put(chunk, updatedState);
+        } else {
+            byChunk.remove(chunk);
         }
         EXECUTOR.execute(() -> {
             try {
